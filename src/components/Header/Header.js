@@ -1,13 +1,20 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { QUERIES, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import Icon from '../Icon';
-import UnstyledButton from '../UnstyledButton';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
-import VisuallyHidden from '../VisuallyHidden';
+import { QUERIES, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import VisuallyHidden from "../VisuallyHidden";
+
+const RotatingNavLink = ({ href, children }) => (
+  <NavLink href={href}>
+    <NavLinkText>{children}</NavLinkText>
+    <BoldNavLinkText>{children}</BoldNavLinkText>
+  </NavLink>
+);
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -20,12 +27,12 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <RotatingNavLink href="/sale">Sale</RotatingNavLink>
+          <RotatingNavLink href="/new">New&nbsp;Releases</RotatingNavLink>
+          <RotatingNavLink href="/men">Men</RotatingNavLink>
+          <RotatingNavLink href="/women">Women</RotatingNavLink>
+          <RotatingNavLink href="/kids">Kids</RotatingNavLink>
+          <RotatingNavLink href="/collections">Collections</RotatingNavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -76,6 +83,8 @@ const DesktopNav = styled.nav`
   gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
   margin: 0px 48px;
 
+  perspective: 1000px;
+
   @media ${QUERIES.tabletAndSmaller} {
     display: none;
   }
@@ -114,15 +123,51 @@ const Filler = styled.div`
   }
 `;
 
+const NavLinkText = styled.span`
+  display: block;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 400ms 100ms;
+    will-change: transform;
+  }
+`;
+
+const BoldNavLinkText = styled.span`
+  position: absolute;
+  top: 50px;
+  left: 0;
+  font-weight: ${WEIGHTS.bold};
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 400ms 100ms;
+    will-change: transform;
+  }
+`;
+
 const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+
   text-decoration: none;
   color: var(--color-gray-900);
+  font-size: 1.125rem;
+  text-transform: uppercase;
   font-weight: ${WEIGHTS.medium};
 
   &:first-of-type {
     color: var(--color-secondary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover ${NavLinkText}, &:focus ${NavLinkText} {
+      transform: translateY(-50px);
+      transition: transform 300ms;
+    }
+
+    &:hover ${BoldNavLinkText}, &:focus ${BoldNavLinkText} {
+      transform: translateY(-50px);
+      transition: transform 300ms;
+    }
   }
 `;
 
