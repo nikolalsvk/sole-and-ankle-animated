@@ -35,12 +35,10 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          <ImageAnimationWrapper>
-            <Image alt="" src={imageSrc} />
-          </ImageAnimationWrapper>
-          {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
-          {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
+          <Image alt="" src={imageSrc} />
         </ImageWrapper>
+        {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
+        {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
@@ -72,78 +70,27 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.article`
+  position: relative;
   perspective: 1000px;
 `;
 
-const Flag = styled.div`
-  position: absolute;
-  top: 12px;
-  right: -4px;
-  background: red;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 10px;
-  font-size: ${14 / 18}rem;
-  font-weight: ${WEIGHTS.bold};
-  color: var(--color-white);
-  border-radius: 2px;
-
-  @media (prefers-reduced-motion: no-preference) {
-    & {
-      transition: transform 400ms 100ms;
-    }
-  }
-`;
-
-const SaleFlag = styled(Flag)`
-  background-color: var(--color-primary);
-`;
-const NewFlag = styled(Flag)`
-  background-color: var(--color-secondary);
-`;
-
 const ImageWrapper = styled.div`
-  position: relative;
-`;
-
-const ImageAnimationWrapper = styled.div`
-  display: flex;
   width: 100%;
   border-radius: 16px 16px 4px 4px;
   overflow: hidden;
-
-  &:hover + ${Flag}, &:focus + ${Flag} {
-    transform: rotateY(25deg) rotate(5deg) scale(1.1);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover + ${Flag}, &:focus + ${Flag} {
-      transition: transform 100ms;
-    }
-  }
 `;
 
 const Image = styled.img`
+  display: block;
   width: 100%;
-  will-change: transform;
-  object-fit: cover;
-
-  &:hover,
-  &:focus {
-    transform: scale(1.1) translateY(-5px);
-  }
 
   @media (prefers-reduced-motion: no-preference) {
-    & {
-      transition: transform 400ms 100ms;
-    }
+    will-change: transform;
+    transition: transform 400ms 100ms;
 
-    &:hover,
-    &:focus {
-      transition: transform 100ms;
-    }
-
-    &:hover + ${Flag}, &:focus + ${Flag} {
+    ${Link}:hover &,
+    ${Link}:focus & {
+      transform: scale(1.1) translateY(-10px);
       transition: transform 100ms;
     }
   }
@@ -172,6 +119,37 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: var(--color-primary);
+`;
+
+const Flag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  background: red;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  font-size: ${14 / 18}rem;
+  font-weight: ${WEIGHTS.bold};
+  color: var(--color-white);
+  border-radius: 2px;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    will-change: transform;
+    transition: transform 400ms 100ms;
+
+    ${Link}:hover &, ${Link}:focus & {
+      transform: rotateY(-25deg) rotate(5deg) scale(1.1);
+      transition: transform 100ms;
+    }
+  }
+`;
+
+const SaleFlag = styled(Flag)`
+  background-color: var(--color-primary);
+`;
+const NewFlag = styled(Flag)`
+  background-color: var(--color-secondary);
 `;
 
 export default ShoeCard;
