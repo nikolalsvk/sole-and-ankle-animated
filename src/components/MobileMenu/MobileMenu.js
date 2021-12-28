@@ -49,6 +49,8 @@ const Overlay = styled(DialogOverlay)`
   justify-content: flex-end;
   opacity: 0;
 
+  perspective: 1000px;
+
   @media (prefers-reduced-motion: no-preference) {
     animation: fadeIn ease-in-out 400ms;
     animation-fill-mode: forwards;
@@ -71,6 +73,15 @@ const Overlay = styled(DialogOverlay)`
       transform: translateX(0px);
     }
   }
+
+  @keyframes slideNRotate {
+    from {
+      transform: translateX(500px) rotate(90deg);
+    }
+    to {
+      transform: translateX(0px) rotate(0deg);
+    }
+  }
 `;
 
 const Content = styled(DialogContent)`
@@ -79,9 +90,11 @@ const Content = styled(DialogContent)`
   height: 100%;
   padding: 24px 32px;
 
+  --base-delay: 200ms;
+
   @media (prefers-reduced-motion: no-preference) {
-    animation: slideIn ease-in-out 600ms;
-    animation-fill-mode: forwards;
+    animation: slideIn ease-in-out 600ms var(--base-delay);
+    animation-fill-mode: backwards;
   }
 `;
 
@@ -92,7 +105,7 @@ const ContentFadeIn = styled.div`
   opacity: 0;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: fadeIn ease-in-out 600ms 500ms;
+    animation: fadeIn ease-in-out 600ms 200ms;
     animation-fill-mode: forwards;
   }
 `;
@@ -116,7 +129,7 @@ const NavLink = styled.a`
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: slideIn ease-in-out 600ms;
+    animation: slideNRotate ease-in-out 600ms;
     animation-fill-mode: backwards;
   }
 `;
@@ -128,25 +141,25 @@ const Nav = styled.nav`
 
   @media (prefers-reduced-motion: no-preference) {
     a:nth-child(1) {
-      animation-delay: 400ms;
+      animation-delay: calc(var(--base-delay) + 100ms);
     }
     a:nth-child(2) {
-      animation-delay: 600ms;
+      animation-delay: calc(var(--base-delay) + 200ms);
     }
     a:nth-child(2) {
-      animation-delay: 800ms;
+      animation-delay: calc(var(--base-delay) + 300ms);
     }
     a:nth-child(3) {
-      animation-delay: 1000ms;
+      animation-delay: calc(var(--base-delay) + 400ms);
     }
     a:nth-child(4) {
-      animation-delay: 1200ms;
+      animation-delay: calc(var(--base-delay) + 500ms);
     }
     a:nth-child(5) {
-      animation-delay: 1400ms;
+      animation-delay: calc(var(--base-delay) + 600ms);
     }
     a:nth-child(6) {
-      animation-delay: 1600ms;
+      animation-delay: calc(var(--base-delay) + 700ms);
     }
   }
 `;

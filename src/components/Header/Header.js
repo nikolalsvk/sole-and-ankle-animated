@@ -79,8 +79,14 @@ const MainHeader = styled.div`
 `;
 
 const DesktopNav = styled.nav`
+  --item-padding: 0.75rem;
+
   display: flex;
-  gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
+  gap: clamp(
+    1rem,
+    9.2vw - 4.5rem - var(--item-padding),
+    3.5rem - var(--item-padding)
+  );
   margin: 0px 48px;
 
   perspective: 1000px;
@@ -123,27 +129,6 @@ const Filler = styled.div`
   }
 `;
 
-const NavLinkText = styled.span`
-  display: block;
-
-  @media (prefers-reduced-motion: no-preference) {
-    transition: transform 400ms 100ms;
-    will-change: transform;
-  }
-`;
-
-const BoldNavLinkText = styled.span`
-  position: absolute;
-  top: 50px;
-  left: 0;
-  font-weight: ${WEIGHTS.bold};
-
-  @media (prefers-reduced-motion: no-preference) {
-    transition: transform 400ms 100ms;
-    will-change: transform;
-  }
-`;
-
 const NavLink = styled.a`
   position: relative;
   overflow: hidden;
@@ -158,17 +143,44 @@ const NavLink = styled.a`
     color: var(--color-secondary);
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    &:hover ${NavLinkText}, &:focus ${NavLinkText} {
-      transform: translateY(-50px);
-      transition: transform 300ms;
-    }
+  &:first-of-type span:nth-child(2) {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+  }
+`;
 
-    &:hover ${BoldNavLinkText}, &:focus ${BoldNavLinkText} {
-      transform: translateY(-50px);
+const Text = styled.span`
+  padding: 0 var(--item-padding);
+  --transform-spacer: 1px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transform: translateX(var(--transform-normal));
+
+    transition: transform 400ms;
+    will-change: transform;
+
+    ${NavLink}:hover &, ${NavLink}:focus & {
+      transform: translateX(var(--transform-hover));
       transition: transform 300ms;
     }
   }
+`;
+
+const NavLinkText = styled(Text)`
+  display: block;
+
+  --transform-normal: 0%;
+  --transform-hover: 100%;
+`;
+
+const BoldNavLinkText = styled(Text)`
+  position: absolute;
+  top: 0;
+  left: var(--margin);
+  background-color: var(--color-gray-100);
+
+  --transform-normal: -100%;
+  --transform-hover: 0%;
 `;
 
 export default Header;
